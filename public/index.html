@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro de Produtos</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h1>Cadastro de Produtos</h1>
+
+  <form id="productForm">
+    <input type="text" id="name" placeholder="Nome" required />
+    <input type="number" id="price" placeholder="Preço" required />
+    <input type="number" id="quantity" placeholder="Quantidade" required />
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Produtos Cadastrados</h2>
+  <ul id="productList"></ul>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
