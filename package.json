@@ -6,14 +6,16 @@
   "scripts": {
     "start": "node src/app.js",
     "test": "jest",
-   "build": "node scripts/build.js"
-  },
+    "build": "node scripts/build.js",
+    "migrate": "knex migrate:latest"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "knex": "^3.1.0",
     "pg": "^8.16.3"
   },
   "devDependencies": {
