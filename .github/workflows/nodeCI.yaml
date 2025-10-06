@@ -39,8 +39,11 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/meu-app:latest
-        # Limpeza
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/andremartinsnascimento/nodeci:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/andremartinsnascimento/nodeci:${{ env.VERSION }}
+         
+      # Limpeza
       - name: Limpar containers
         if: always()
         run: docker compose down
