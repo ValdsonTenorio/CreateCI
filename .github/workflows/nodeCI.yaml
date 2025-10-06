@@ -33,12 +33,6 @@ jobs:
           done
       - name: Rodar migrações
         run: docker compose run --rm app npm run migrate
-      - name: Verificar se a aplicação está rodando
-        run: |
-          until curl -s http://localhost:3000; do
-          echo "Esperando aplicação..."
-          sleep 2
-          done
       - name: Rodar testes
         run: docker compose run --rm app npm test
         
