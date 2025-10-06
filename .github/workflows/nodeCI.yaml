@@ -4,39 +4,28 @@ on:
   push:
     branches:
       - main
+      - docker
   pull_request:
     branches:
       - main
-  
+      - docker
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - name: Install dependencies
-        run: npm install
-      - name: execute migrations
-        run: npm run migrate
+      - name: Set up Docker Compose
+        run: docker-compose up -d db
+      - name: Wait for Postgres to be healthy
+        run: |
+          for i in {1..10}; do
+            docker-compose exec db pg_isready -U postgres && break
+            sleep 5
+          done
+      - name: Build and run migrations
+        run: docker-compose run --rm app npm run migrate
       - name: Build project
-        run: npm run build
+        run: docker-compose run --rm app npm run build
       - name: Run tests
-        run: npm test
+        run: docker-compose run --rm app npm test

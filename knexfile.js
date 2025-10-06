@@ -1,10 +1,13 @@
+require('dotenv').config();
+
 module.exports = {
   development: {
     client: 'pg',
     connection: {
-      database: 'postgres',
-      user:     'postgres',     // Troque pelo seu usuário do PostgreSQL
-      password: 'postgres'       // Troque pela sua senha do PostgreSQL
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD
     },
     migrations: {
       directory: './migrations'
