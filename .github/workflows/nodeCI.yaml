@@ -23,10 +23,17 @@ jobs:
 
       - name: Construir imagens
         run: docker compose build
-
+      - name: Subir serviços
+        run: docker compose up -d db
+      - name: Esperar banco
+        run: |
+          until docker compose exec db pg_isready -U postgres; do
+          echo "Esperando banco..."
+          sleep 2
+          done
       - name: Rodar testes
         run: docker compose run --rm app npm test
-     
+        
        #CD
       - name: Login no Docker Hub
         uses: docker/login-action@v3
