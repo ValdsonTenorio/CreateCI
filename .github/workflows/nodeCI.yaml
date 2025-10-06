@@ -43,6 +43,7 @@ jobs:
           done
 
       - name: Build and run migrations
+        if: success()  # garante que só roda se o anterior teve sucesso
         run: docker compose run --rm app npm run migrate
 
       - name: Build project
