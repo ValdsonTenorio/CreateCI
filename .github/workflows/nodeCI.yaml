@@ -13,19 +13,42 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up Docker Compose
-        run: docker-compose up -d db
+        run: docker compose up -d db
+
       - name: Wait for Postgres to be healthy
         run: |
           for i in {1..10}; do
-            docker-compose exec db pg_isready -U postgres && break
+            docker compose exec -T db pg_isready -U postgres && break
+            echo "Waiting for database..."
             sleep 5
           done
+
       - name: Build and run migrations
-        run: docker-compose run --rm app npm run migrate
+        run: docker compose run --rm app npm run migrate
+
       - name: Build project
-        run: docker-compose run --rm app npm run build
+        run: docker compose run --rm app npm run build
+
       - name: Run tests
-        run: docker-compose run --rm app npm test
+        run: docker compose run --rm app npm test
+      - name: Stop Docker Compose
+        run: docker compose down -v
