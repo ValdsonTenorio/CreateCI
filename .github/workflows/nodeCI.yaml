@@ -51,7 +51,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/andremartinsnascimento/nodeci:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/andremartinsnascimento/nodeci:${{ env.VERSION }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/andremartinsnascimento/nodeci:1.0.0
          
       # Limpeza
       - name: Limpar containers
