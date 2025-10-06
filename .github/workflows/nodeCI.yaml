@@ -50,8 +50,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/andremartinsnascimento/nodeci:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/andremartinsnascimento/nodeci:1.0.0
+            ${{ secrets.DOCKERHUB_USERNAME }}/nodeci:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/nodeci:${{ env.VERSION }}
          
       # Limpeza
       - name: Limpar containers
