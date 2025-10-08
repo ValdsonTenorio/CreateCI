@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: productdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: product-app
+    depends_on:
+      - db
+    environment:
+      PORT: 3000
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: productdb
+      NODE_ENV: development
+    command: ["npm", "start"] 
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "3000:3000"
